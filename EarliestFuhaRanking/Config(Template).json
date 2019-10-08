@@ -1,0 +1,8 @@
+{
+  "KeysAndTokens": {
+    "ApiKey": "(Twitter Developersで作成したAppのAPIキー)",
+    "ApiSecretKey": "(Twitter Developersで作成したAppのAPIシークレットキー)",
+    "AccessToken": "(Twitter Developersで作成したAppのアクセストークン)",
+    "AccessTokenSecret": "(Twitter Developersで作成したAppのアクセストークンシークレット)"
+  }
+}
