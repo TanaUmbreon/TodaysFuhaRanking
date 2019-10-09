@@ -10,5 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConsoleApplication.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConsoleException.cs" />
   </ItemGroup>
 </Project>

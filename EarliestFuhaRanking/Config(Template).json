@@ -4,5 +4,9 @@
     "ApiSecretKey": "(Twitter Developersで作成したAppのAPIシークレットキー)",
     "AccessToken": "(Twitter Developersで作成したAppのアクセストークン)",
     "AccessTokenSecret": "(Twitter Developersで作成したAppのアクセストークンシークレット)"
-  }
+  },
+  "CountPerQuery": 200,
+  "MaxQueryIterationCount": 3,
+  "DetailReportFilePath": "フハレポート (詳細).txt",
+  "ReportForTweetFilePath": "フハレポート (ツイート用).txt"
 }
