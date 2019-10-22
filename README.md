@@ -2,6 +2,8 @@
 
 Twitterに生息する某ラスボス ([@rasubosufrijio](https://twitter.com/rasubosufrijio)) の眷属達で誰が一番早く「フハハハハ！」をしたかランキング集計するアプリです。なぜ作ったし((
 
+ランキング集計した結果はフハレポートとしてテキストファイルで出力します。
+
 ## アプリの実行結果
 
 ↓こんな感じのテキストを出力します(一部ユーザー名を伏せています)。
@@ -36,11 +38,11 @@ Twitterに生息する某ラスボス ([@rasubosufrijio](https://twitter.com/ras
 
 ## 注意事項
 
-**このアプリを使うには、Twitter BOTのトークン等が必要になります。**
+**このアプリを使うには、Twitter App (Twitter BOT) の API キーとトークンが必要になります。**
 
-[Twitter Developers アカウント](https://developer.twitter.com/)を作成し、そこでTwitter BOT用のアプリを作成することでトークンを取得できます。
+[Twitter Developers アカウント](https://developer.twitter.com/)を作成し、そこでTwitter BOT用のアプリを作成することでAPIキーとトークンを取得することができます。
 
-アプリを実行する際は、**"Config(Template).json" を "Config.json"にリネームしてください。** また、"Config.json" ファイルを開いて前述のTwitter BOTのトークンを設定してください。
+アプリを実行する際は、**"Config(Template).json" を "Config.json" にリネームしてください。** また、"Config.json" ファイルを開いて前述のTwitter BOTのAPIキーとトークンを設定してください。
 
 ## 詳しい仕様
 
