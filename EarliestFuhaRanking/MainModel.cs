@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using Common;
 using CoreTweet;
 using EarliestFuhaRanking.Configurations;
@@ -22,7 +23,7 @@ namespace EarliestFuhaRanking
 
         public void CollectTweets()
         {
-            const string SearchWord = "フハハハハ！";
+            const string SearchWord = "(フハハハハ！|Q.ラスボスは？)";
 
             Tokens token = CreateTokens();
             long? maxId = null;
@@ -47,7 +48,7 @@ namespace EarliestFuhaRanking
                     if (!statuses.Any()) { break; }
 
                     // さらにフハツイだけ取得
-                    tweets.AddRange(statuses.Where(s => s.Text.Contains(SearchWord)));
+                    tweets.AddRange(statuses.Where(s => Regex.IsMatch(s.Text,SearchWord)));
 
                     maxId = statuses.LastOrDefault()?.Id;
                 }
