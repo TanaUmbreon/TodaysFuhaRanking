@@ -6,7 +6,7 @@
     "AccessTokenSecret": "(Twitter Developersで作成したAppのアクセストークンシークレット)"
   },
   "CountPerQuery": 200,
-  "MaxQueryIterationCount": 3,
-  "DetailReportFilePath": "フハレポート (詳細).txt",
-  "ReportForTweetFilePath": "フハレポート (ツイート用).txt"
+  "MaxQueryIterationCount": 2,
+  "DetailReportFilePath": "フハレポート (詳細) $(DateTime|yyyyMMdd).txt",
+  "ReportForTweetFilePath": "フハレポート (ツイート用) $(DateTime|yyyyMMdd).txt"
 }

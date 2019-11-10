@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using Common;
 using CoreTweet;
 using EarliestFuhaRanking.Configurations;
+using EarliestFuhaRanking.Configurations.Macros;
 
 namespace EarliestFuhaRanking
 {
@@ -79,11 +80,27 @@ namespace EarliestFuhaRanking
             ReportForTweet();
         }
 
+        /// <summary>
+        /// 指定したファイル パスに含まれる、パスとして使用できない文字を削除して返します。
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        private string RemoveInvalidPathChars(string path)
+        {
+            var result = new StringBuilder(path);
+            foreach (char c in Path.GetInvalidFileNameChars())
+            {
+                result.Replace(c.ToString(), "");
+            }
+            return result.ToString();
+        }
+
         private void ReportDetail()
         {
             const string Separator = "\t";
 
-            using var writer = new StreamWriter(config.DetailReportFilePath, false, reportFileEncoidng);
+            string path = RemoveInvalidPathChars(MacroExpander.ExpandAll(config.DetailReportFilePath));
+            using var writer = new StreamWriter(path, false, reportFileEncoidng);
 
             writer.WriteLine(string.Join(Separator, new[] {
                 "順番",
@@ -115,7 +132,8 @@ namespace EarliestFuhaRanking
             // ラスボスアカウントID(順位の基準ID)
             const string RankingBaseId = "rasubosufrijio";
 
-            using var writer = new StreamWriter(config.ReportForTweetFilePath, false, reportFileEncoidng);
+            string path = RemoveInvalidPathChars(MacroExpander.ExpandAll(config.ReportForTweetFilePath));
+            using var writer = new StreamWriter(path, false, reportFileEncoidng);
 
             writer.WriteLine("本日のフハツイランキング");
 
