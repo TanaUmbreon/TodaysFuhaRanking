@@ -37,8 +37,9 @@ namespace EarliestFuhaRanking.Configurations.Macros
 
             // IMacroを実装する具象クラスでデフォルトコンストラクタが存在するクラスを取得
             // そのクラスのインスタンスを作成し、リストに追加
-            Assembly.GetAssembly(typeof(IMacro))?.GetTypes()
-                .Where(t => t.IsSubclassOf(typeof(IMacro)) && !t.IsAbstract)
+            var targetInterface = typeof(IMacro);
+            Assembly.GetExecutingAssembly().GetTypes()
+                .Where(t => targetInterface.IsAssignableFrom(t) && !t.IsAbstract)
                 .ToList()
                 .ForEach(t =>
                 {
