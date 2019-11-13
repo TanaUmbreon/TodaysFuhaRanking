@@ -5,8 +5,15 @@
     "AccessToken": "(Twitter Developersで作成したAppのアクセストークン)",
     "AccessTokenSecret": "(Twitter Developersで作成したAppのアクセストークンシークレット)"
   },
-  "CountPerQuery": 200,
-  "MaxQueryIterationCount": 2,
-  "DetailReportFilePath": "フハレポート (詳細) $(DateTime|yyyyMMdd).txt",
-  "ReportForTweetFilePath": "フハレポート (ツイート用) $(DateTime|yyyyMMdd).txt"
+  "FuhaReports": {
+    "EncodingName": "UTF-8",
+    "DetailReportFilePath": "フハレポート (詳細) $(DateTime|yyyyMMdd).txt",
+    "TweetReportFilePath": "フハレポート (ツイート用) $(DateTime|yyyyMMdd).txt"
+  },
+  "RankingCollection": {
+    "CountPerQuery": 200,
+    "MaxQueryIterationCount": 1,
+    "SearchWord": "(フハハハハ！|Q.ラスボスは？)",
+    "RankingBaseId": "rasubosufrijio"
+  }
 }

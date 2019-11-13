@@ -5,28 +5,20 @@
     /// </summary>
     public class ConfigRoot
     {
+        /// <summary>
+        /// Twitter Developers で作成した App から発行される Consumer API keys および Access tokens の設定を取得または設定します。
+        /// </summary>
         public KeysAndTokens KeysAndTokens { get; set; } = new KeysAndTokens();
 
         /// <summary>
-        /// 一度のタイムライン問い合わせで取得する最大ツイート数を取得または設定します。
+        /// フハ レポートの出力設定を取得または設定します。
         /// </summary>
-        public int CountPerQuery { get; set; } = 0;
+        public FuhaReports FuhaReports { get; set; } = new FuhaReports();
 
         /// <summary>
-        /// タイムライン問い合わせを繰り返す回数を取得または設定します。
+        /// ランキング集計の設定を取得または設定します。
         /// </summary>
-        /// <remarks>Twitter APIの仕様上、タイムライン問い合わせは15分あたり15回までです。</remarks>
-        public int MaxQueryIterationCount { get; set; } = 0;
-
-        /// <summary>
-        /// フハレポート ファイル (詳細) の保存先パスを取得または設定します。
-        /// </summary>
-        public string DetailReportFilePath { get; set; } = "";
-
-        /// <summary>
-        /// フハレポート ファイル (ツイート用) の保存先パスを取得または設定します。
-        /// </summary>
-        public string ReportForTweetFilePath { get; set; } = "";
+        public RankingCollection RankingCollection { get; set; } = new RankingCollection();
 
         /// <summary>
         /// <see cref="ConfigRoot"/> の新しいインスタンスを生成します。

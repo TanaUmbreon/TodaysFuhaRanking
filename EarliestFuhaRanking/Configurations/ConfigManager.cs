@@ -2,7 +2,7 @@
 
 namespace EarliestFuhaRanking.Configurations
 {
-    public class ConfigManager
+    public static class ConfigManager
     {
         /// <summary>既定のアプリケーションの構成情報ファイルのパス</summary>
         private const string DefaultFilePath = "Config.json";

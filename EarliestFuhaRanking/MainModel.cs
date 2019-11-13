@@ -24,15 +24,13 @@ namespace EarliestFuhaRanking
 
         public void CollectTweets()
         {
-            const string SearchWord = "(フハハハハ！|Q.ラスボスは？)";
-
             Tokens token = CreateTokens();
             long? maxId = null;
             DateTime today = DateTime.Today;
 
             tweets.Clear();
 
-            for (int i = 0; i < config.MaxQueryIterationCount; ++i)
+            for (int i = 0; i < config.RankingCollection.MaxQueryIterationCount; ++i)
             {
                 try
                 {
@@ -40,7 +38,7 @@ namespace EarliestFuhaRanking
                     // max_idに指定したツイートは直前のループで処理しているので除外(2ループ目以降)
                     // 今日ツイートされたものだけ取得
                     var statuses = token.Statuses
-                        .HomeTimeline(count => config.CountPerQuery,
+                        .HomeTimeline(count => config.RankingCollection.CountPerQuery,
                                       exclude_replies => true,
                                       max_id => maxId)
                         .Skip(maxId == null ? 0 : 1)
@@ -49,7 +47,7 @@ namespace EarliestFuhaRanking
                     if (!statuses.Any()) { break; }
 
                     // さらにフハツイだけ取得
-                    tweets.AddRange(statuses.Where(s => Regex.IsMatch(s.Text,SearchWord)));
+                    tweets.AddRange(statuses.Where(s => Regex.IsMatch(s.Text, config.RankingCollection.SearchWord)));
 
                     maxId = statuses.LastOrDefault()?.Id;
                 }
@@ -99,7 +97,7 @@ namespace EarliestFuhaRanking
         {
             const string Separator = "\t";
 
-            string path = RemoveInvalidPathChars(MacroExpander.ExpandAll(config.DetailReportFilePath));
+            string path = RemoveInvalidPathChars(MacroExpander.ExpandAll(config.FuhaReports.DetailReportFilePath));
             using var writer = new StreamWriter(path, false, reportFileEncoidng);
 
             writer.WriteLine(string.Join(Separator, new[] {
@@ -132,7 +130,7 @@ namespace EarliestFuhaRanking
             // ラスボスアカウントID(順位の基準ID)
             const string RankingBaseId = "rasubosufrijio";
 
-            string path = RemoveInvalidPathChars(MacroExpander.ExpandAll(config.ReportForTweetFilePath));
+            string path = RemoveInvalidPathChars(MacroExpander.ExpandAll(config.FuhaReports.TweetReportFilePath));
             using var writer = new StreamWriter(path, false, reportFileEncoidng);
 
             writer.WriteLine("本日のフハツイランキング");
