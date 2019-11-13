@@ -13,22 +13,27 @@ namespace EarliestFuhaRanking
 {
     public class MainModel
     {
-        private readonly ConfigRoot config = ConfigManager.GetDefaultConfigRoot();
-        private readonly List<Status> tweets = new List<Status>();
-        private readonly Encoding reportFileEncoidng = Encoding.UTF8;
+        private readonly ConfigRoot config;
+        private readonly List<Tweet> collectedTweets;
+        private readonly Encoding reportFileEncoidng;
 
         /// <summary>
         /// <see cref="MainModel"/> の新しいインスタンスを生成します。
         /// </summary>
-        public MainModel() { }
+        public MainModel() 
+        {
+            config = ConfigManager.GetDefaultConfigRoot();
+            collectedTweets = new List<Tweet>();
+            reportFileEncoidng = Encoding.GetEncoding(config.FuhaReports.EncodingName);
+        }
 
         public void CollectTweets()
         {
-            Tokens token = CreateTokens();
+            Tokens token = CreateTokens(config.KeysAndTokens);
             long? maxId = null;
             DateTime today = DateTime.Today;
 
-            tweets.Clear();
+            collectedTweets.Clear();
 
             for (int i = 0; i < config.RankingCollection.MaxQueryIterationCount; ++i)
             {
@@ -37,19 +42,21 @@ namespace EarliestFuhaRanking
                     // ホームタイムラインからツイートを取得
                     // max_idに指定したツイートは直前のループで処理しているので除外(2ループ目以降)
                     // 今日ツイートされたものだけ取得
-                    var statuses = token.Statuses
+                    var todayStatuses = token.Statuses
                         .HomeTimeline(count => config.RankingCollection.CountPerQuery,
                                       exclude_replies => true,
                                       max_id => maxId)
                         .Skip(maxId == null ? 0 : 1)
                         .Where(s => s.CreatedAt.LocalDateTime.Date == today);
 
-                    if (!statuses.Any()) { break; }
+                    if (!todayStatuses.Any()) { break; }
 
                     // さらにフハツイだけ取得
-                    tweets.AddRange(statuses.Where(s => Regex.IsMatch(s.Text, config.RankingCollection.SearchWord)));
+                    var regex = new Regex(config.RankingCollection.SearchWord);
+                    var fuhaStatuses = todayStatuses.Where(s => regex.IsMatch(s.Text));
+                    collectedTweets.AddRange(fuhaStatuses.Select(s => new Tweet(s)));
 
-                    maxId = statuses.LastOrDefault()?.Id;
+                    maxId = todayStatuses.LastOrDefault()?.Id;
                 }
                 catch (TwitterException ex)
                 {
@@ -60,22 +67,27 @@ namespace EarliestFuhaRanking
                 }
             }
 
-            tweets.Reverse();
-        }
-
-        private Tokens CreateTokens()
-        {
-            return Tokens.Create(
-                config.KeysAndTokens.ApiKey,
-                config.KeysAndTokens.ApiSecretKey,
-                config.KeysAndTokens.AccessToken,
-                config.KeysAndTokens.AccessTokenSecret);
+            collectedTweets.Reverse();
         }
 
         public void ReportTweets()
         {
-            ReportDetail();
-            ReportForTweet();
+            ReportDetailReport();
+            ReportTweetReport();
+        }
+
+        /// <summary>
+        /// 指定したキーとトークンで Twitter API のトークンを作成します。
+        /// </summary>
+        /// <param name="keysAndTokens"></param>
+        /// <returns></returns>
+        private Tokens CreateTokens(KeysAndTokens keysAndTokens)
+        {
+            return Tokens.Create(
+                keysAndTokens.ApiKey,
+                keysAndTokens.ApiSecretKey,
+                keysAndTokens.AccessToken,
+                keysAndTokens.AccessTokenSecret);
         }
 
         /// <summary>
@@ -93,7 +105,7 @@ namespace EarliestFuhaRanking
             return result.ToString();
         }
 
-        private void ReportDetail()
+        private void ReportDetailReport()
         {
             const string Separator = "\t";
 
@@ -110,57 +122,61 @@ namespace EarliestFuhaRanking
             }));
 
             int rank = 1;
-            tweets.ForEach(s =>
+            collectedTweets.ForEach(t =>
             {
                 writer.WriteLine(string.Join(Separator, new[]
                 {
                     rank.ToString(),
-                    ToDateTime(s.Id).ToString("yyyy-MM-dd HH:mm:ss.fff"),
-                    s.Id.ToString(),
-                    s.User.Name,
-                    $"@{s.User.ScreenName}",
-                    s.Text.Replace("\n","\\n"), // 改行をエスケープ
+                    t.TweetedAt.ToString("yyyy-MM-dd HH:mm:ss.fff"),
+                    t.Id.ToString(),
+                    t.UserName,
+                    t.FormatedUserScreenName,
+                    t.EscapedText,
                 }));
                 rank++;
             });
         }
 
-        private void ReportForTweet()
+        private void ReportTweetReport()
         {
-            // ラスボスアカウントID(順位の基準ID)
-            const string RankingBaseId = "rasubosufrijio";
+            Tweet? lastBossTweet = GetLastBossTweet();
 
             string path = RemoveInvalidPathChars(MacroExpander.ExpandAll(config.FuhaReports.TweetReportFilePath));
             using var writer = new StreamWriter(path, false, reportFileEncoidng);
 
             writer.WriteLine("本日のフハツイランキング");
 
+            if (lastBossTweet == null)
+            {
+                writer.WriteLine();
+                writer.WriteLine("ラスボスのツイートが見つからなかった為、集計できませんでした");
+                return;
+            }
+
             bool isFlyingStart = true;
-            int rank = -1; // -1: フライングツイート, 0: ラスボスのツイート, 1以降: ツイート順位
-            tweets.ForEach(s =>
+            int rank = -1; // -1: フライングツイート, 1以降: ツイート順位
+
+            collectedTweets.ForEach(t =>
             {
                 // ラスボスアカウントのツイートになったタイミングから順位付け開始
                 // それより前はフライング扱い
-                if (s.User.ScreenName == RankingBaseId)
+                if (t.UserScreenName == config.RankingCollection.RankingBaseId)
                 {
                     isFlyingStart = false;
-                    rank = 0;
+                    rank = 1;
+                    return;
                 }
 
-                string r = isFlyingStart ? "フライング" : rank.ToString() + "位";
-                writer.WriteLine($"[{ToDateTime(s.Id):HH:mm:ss.fff}]{r}: {s.User.Name}");
+                var tweet = new FuhaTweet(t, lastBossTweet, rank);
+                writer.WriteLine($"[{tweet.DifferenceFromLastBossTweetFlag}{tweet.DifferenceFromLastBossTweet:mm\\:ss\\.fff}]{tweet.DisplayRank}: {t.UserName}");
                 if (!isFlyingStart) { rank++; }
             });
+
+            writer.WriteLine();
+            writer.Write($"[ ]内はラスボスのフリージオがツイートした時間({lastBossTweet.TweetedAt:HH:mm:ss.fff})からの差");
         }
 
-        private DateTime ToDateTime(long tweetId)
-        {
-            // 算出方法の参考元
-            // https://yoshipc.net/tweet-id-to-mili-sec/
-
-            const long SnowflakeBeginTimestamp = 1288834974657L;
-            long timestamp = (tweetId >> 22) + SnowflakeBeginTimestamp;
-            return DateTimeOffset.FromUnixTimeMilliseconds(timestamp).LocalDateTime;
-        }
+        private Tweet? GetLastBossTweet() => collectedTweets
+            .FirstOrDefault(t => t.UserScreenName == config.RankingCollection.RankingBaseId);
     }
 }
