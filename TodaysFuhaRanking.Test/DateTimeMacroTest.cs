@@ -1,9 +1,9 @@
 using System;
-using Common.Clock;
-using EarliestFuhaRanking.Configurations.Macros;
 using NUnit.Framework;
+using TodaysFuhaRanking.Common.Clocks;
+using TodaysFuhaRanking.Common.Macros;
 
-namespace EarliestFuhaRanking.Test
+namespace TodaysFuhaRanking.Test
 {
     public class DateTimeMacroTest
     {

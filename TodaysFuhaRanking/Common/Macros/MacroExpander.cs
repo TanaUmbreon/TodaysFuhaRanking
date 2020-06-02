@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Linq;
 
-namespace EarliestFuhaRanking.Configurations.Macros
+namespace TodaysFuhaRanking.Common.Macros
 {
     /// <summary>
     /// 文字列置換マクロを一括置換します。

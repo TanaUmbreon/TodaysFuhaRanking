@@ -1,9 +1,17 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
+
+    <RepositoryUrl>https://github.com/TanaUmbreon/TodaysFuhaRanking</RepositoryUrl>
+
+    <RepositoryType>GitHub</RepositoryType>
+
+    <Authors>Tana</Authors>
+
+    <Copyright>Copyright © 2019 Tana</Copyright>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EarliestFuhaRanking\EarliestFuhaRanking.csproj" />
+    <ProjectReference Include="..\TodaysFuhaRanking\TodaysFuhaRanking.csproj" />
   </ItemGroup>
 
 </Project>

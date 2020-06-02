@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using CoreTweet;
 
-namespace EarliestFuhaRanking
+namespace TodaysFuhaRanking
 {
     /// <summary>
     /// 単一のフハ ツイートを表します。

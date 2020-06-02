@@ -1,9 +1,9 @@
-﻿namespace EarliestFuhaRanking.Configurations
+﻿namespace TodaysFuhaRanking.Settings
 {
     /// <summary>
-    /// ランキング集計の設定を格納します。
+    /// フハ ツイートの集計設定を表します。
     /// </summary>
-    public class RankingCollection
+    public class FuhaTweetAggregationSettings
     {
         /// <summary>
         /// 一度のタイムライン問い合わせで取得する最大ツイート数を取得または設定します。
@@ -28,8 +28,8 @@
         public string RankingBaseId { get; set; } = "";
 
         /// <summary>
-        /// <see cref="RankingCollection"/> の新しいインスタンスを生成します。
+        /// <see cref="FuhaTweetAggregationSettings"/> の新しいインスタンスを生成します。
         /// </summary>
-        public RankingCollection() { }
+        public FuhaTweetAggregationSettings() { }
     }
 }

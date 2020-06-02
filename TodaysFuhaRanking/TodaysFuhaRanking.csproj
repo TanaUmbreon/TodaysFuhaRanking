@@ -4,11 +4,11 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <Authors>Tana</Authors>
-    <Product>Earliest FUHAHAHAHA! Ranking</Product>
+    <Product>Today's FUHAHAHAHA! Ranking</Product>
     <Description>誰が一番早く「フハハハハ！」をしたか確認するため時系列順にツイートをまとめるアプリです。</Description>
     <Copyright>Copyright © 2019 Tana</Copyright>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <RepositoryUrl>https://github.com/TanaUmbreon/EarliestFuhaRanking</RepositoryUrl>
+    <RepositoryUrl>https://github.com/TanaUmbreon/TodaysFuhaRanking</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
     <AssemblyVersion>1.2.0.0</AssemblyVersion>
     <FileVersion>1.2.0.0</FileVersion>
@@ -21,7 +21,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Config%28Template%29.json" />
+    <None Remove="NLog.config" />
+    <None Remove="Settings(Template).json" />
     <None Include="..\LICENSE">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
@@ -29,24 +30,28 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="CommandLineParser" Version="2.8.0" />
     <PackageReference Include="CoreTweet" Version="1.0.0.483" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="3.1.4" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="NLog.Extensions.Logging" Version="1.6.4" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Config(Template).json">
+    <Content Include="Settings%28Template%29.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Config.json">
+    <None Update="Settings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
-  <Import Project="..\Common\Common.projitems" Label="Shared" />
-
-  <ProjectExtensions><VisualStudio><UserProperties config_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
+  <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
 
 </Project>

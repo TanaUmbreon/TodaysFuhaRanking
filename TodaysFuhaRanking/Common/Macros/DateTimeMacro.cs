@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using Common.Clock;
+using TodaysFuhaRanking.Common.Clocks;
 
-namespace EarliestFuhaRanking.Configurations.Macros
+namespace TodaysFuhaRanking.Common.Macros
 {
     /// <summary>
     /// 現在の日時に置換するマクロです。

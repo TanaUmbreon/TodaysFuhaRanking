@@ -13,6 +13,11 @@ namespace Common
         public static ConsoleColor ErrorColor { get; set; } = ConsoleColor.Yellow;
 
         /// <summary>
+        /// このプロセスの終了コードを取得または設定します。
+        /// </summary>
+        public static int ExitCode { get; set; }
+
+        /// <summary>
         /// 指定したメソッドをフレームワーク上で実行します。
         /// </summary>
         /// <param name="action">実行するメソッド。</param>
@@ -27,6 +32,8 @@ namespace Common
         {
             try
             {
+                ExitCode = Environment.ExitCode;
+
                 if (action == null) { throw new ArgumentNullException(nameof(action)); }
 
                 action.Invoke();
@@ -34,12 +41,16 @@ namespace Common
             catch (ConsoleException ex)
             {
                 WriteStopError(ex);
-                Environment.ExitCode = ex.ExitCode;
+                ExitCode = ex.ExitCode;
             }
             catch (Exception ex)
             {
                 WriteStopError(ex);
-                Environment.ExitCode = ConsoleException.DefaultExitCode;
+                ExitCode = ConsoleException.DefaultExitCode;
+            }
+            finally
+            {
+                Environment.ExitCode = ExitCode;
             }
         }
 

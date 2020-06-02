@@ -1,4 +1,4 @@
-﻿namespace EarliestFuhaRanking.Configurations.Macros
+﻿namespace TodaysFuhaRanking.Common.Macros
 {
     /// <summary>
     /// 特定の文字列を特定の情報に置換するマクロを提供します。

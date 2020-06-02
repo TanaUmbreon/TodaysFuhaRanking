@@ -1,9 +1,9 @@
-﻿namespace EarliestFuhaRanking.Configurations
+﻿namespace TodaysFuhaRanking.Settings
 {
     /// <summary>
-    /// Twitter App を操作するためのキーとトークンを格納します。
+    /// Twitter Developers で作成した App から発行される Consumer API keys および Access tokens の設定を表します。
     /// </summary>
-    public class KeysAndTokens
+    public class KeysAndTokensSettings
     {
         /// <summary>
         /// Twitter API キーを取得または設定します。
@@ -26,8 +26,8 @@
         public string AccessTokenSecret { get; set; } = "";
 
         /// <summary>
-        /// <see cref="KeysAndTokens"/> の新しいインスタンスを生成します。
+        /// <see cref="KeysAndTokensSettings"/> の新しいインスタンスを生成します。
         /// </summary>
-        public KeysAndTokens() { }
+        public KeysAndTokensSettings() { }
     }
 }

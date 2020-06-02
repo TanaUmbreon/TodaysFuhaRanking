@@ -1,7 +1,7 @@
 ﻿using System;
 using CoreTweet;
 
-namespace EarliestFuhaRanking
+namespace TodaysFuhaRanking
 {
     /// <summary>
     /// 単一のツイートを表します。
