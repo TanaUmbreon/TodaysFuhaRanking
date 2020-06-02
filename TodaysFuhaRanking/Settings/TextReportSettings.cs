@@ -16,11 +16,13 @@ namespace TodaysFuhaRanking.Settings
         /// <summary>
         /// 詳細フハ レポートのファイル パスを取得または設定します。
         /// </summary>
+        /// <remarks>文字列置換マクロに対応しています。</remarks>
         public string DetailReportFilePath { get; set; } = "";
 
         /// <summary>
         /// ツイート用フハ レポートのファイル パスを取得または設定します。
         /// </summary>
+        /// <remarks>文字列置換マクロに対応しています。</remarks>
         public string TweetReportFilePath { get; set; } = "";
 
         /// <summary>
