@@ -33,7 +33,9 @@ namespace TodaysFuhaRanking.Commands.Operators
         public void ExecuteCommands()
         {
             var commands = CreateCommands();
-            if (!commands.Any()) { throw new InvalidOperationException(); }
+            if (!commands.Any()) {
+                throw new InvalidOperationException("実行する機能が一つも指定されていません。"); 
+            }
 
             foreach (var command in commands)
             {
@@ -47,8 +49,9 @@ namespace TodaysFuhaRanking.Commands.Operators
         /// <returns>実行オプションを元に生成されたコマンドのコレクション。</returns>
         private IEnumerable<ICommand> CreateCommands()
         {
-            if (args.ExecutesReport) { yield return new ReportCommand(logger); }
+            if (args.ExecutesAggregate) { yield return new AggregateCommand(logger); }
             if (args.ExecutesTweet) { yield return new TweetCommand(logger); }
+            if (args.ExecutesExportText) { yield return new ExportTextCommand(logger); }
         }
     }
 }

@@ -10,21 +10,27 @@ namespace TodaysFuhaRanking.Commands.Operators
     public class CommandLineArgs
     {
         /// <summary>
-        /// ランキング集計機能を実行すること示す値を取得または設定します。
+        /// ランキングの集計機能を実行すること示す値を取得または設定します。
         /// </summary>
-        [Option(longName: "Report", Required = false)]
-        public bool ExecutesReport { get; set; } = false;
+        [Option(longName: "Aggregate", Required = false)]
+        public bool ExecutesAggregate { get; set; } = false;
 
         /// <summary>
-        /// ランキング ツイート機能を実行すること示す値を取得または設定します。
+        /// ランキングのツイート機能を実行すること示す値を取得または設定します。
         /// </summary>
         [Option(longName: "Tweet", Required = false)]
         public bool ExecutesTweet { get; set; } = false;
 
         /// <summary>
+        /// ランキングのテキスト出力機能を実行すること示す値を取得または設定します。
+        /// </summary>
+        [Option(longName: "ExportText", Required = false)]
+        public bool ExecutesExportText { get; set; } = false;
+
+        /// <summary>
         /// <see cref="CommandLineArgs"/> の新しいインスタンスを生成します。
         /// </summary>
-        private CommandLineArgs() { }
+        public CommandLineArgs() { }
 
         /// <summary>
         /// 指定したコマンド ライン引数の生データを、それと等価な

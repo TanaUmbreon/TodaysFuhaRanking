@@ -6,15 +6,15 @@ using NLog;
 namespace TodaysFuhaRanking.Commands
 {
     /// <summary>
-    /// ランキングのツイート機能を実行するコマンドです。
+    /// ランキングのテキスト出力機能を実行するコマンドです。
     /// </summary>
-    public class TweetCommand : LoggableCommand
+    public class ExportTextCommand : LoggableCommand
     {
         /// <summary>
-        /// <see cref="TweetCommand"/> の新しいインスタンスを生成します。
+        /// <see cref="ExportTextCommand"/> の新しいインスタンスを生成します。
         /// </summary>
         /// <param name="logger">コマンドの実行中に使用するロギング オブジェクト。</param>
-        public TweetCommand(ILogger logger) : base(logger) { }
+        public ExportTextCommand(ILogger logger) : base(logger) { }
 
         public override void Execute(object parameter)
         {
