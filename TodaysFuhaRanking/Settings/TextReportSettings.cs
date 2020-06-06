@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Text;
 
 namespace TodaysFuhaRanking.Settings
@@ -36,10 +37,40 @@ namespace TodaysFuhaRanking.Settings
         public TextReportSettings() { }
 
         /// <summary>
+        /// 詳細フハ レポートを出力するための書き出しストリームを生成します。
+        /// </summary>
+        /// <returns>詳細フハ レポートを出力するための書き出しストリーム。</returns>
+        public TextWriter CreateDetailReportWriter()
+        {
+            if (string.IsNullOrEmpty(DetailReportFilePath))
+            {
+                throw new InvalidOperationException("詳細フハ レポートの出力先が設定されていません。");
+            }
+
+            string path = Path.Combine(SaveDirectoryPath, DetailReportFilePath);
+            return new StreamWriter(path, false, GetEncoding());
+        }
+
+        /// <summary>
+        /// ツイート用フハ レポートを出力するための書き出しストリームを生成します。
+        /// </summary>
+        /// <returns>ツイート用フハ レポートを出力するための書き出しストリーム。</returns>
+        public TextWriter CreateTweetReportWriter()
+        {
+            if (string.IsNullOrEmpty(TweetReportFilePath))
+            {
+                throw new InvalidOperationException("ツイート用フハ レポートの出力先が設定されていません。");
+            }
+
+            string path = Path.Combine(SaveDirectoryPath, TweetReportFilePath);
+            return new StreamWriter(path, false, GetEncoding());
+        }
+
+        /// <summary>
         /// フハ レポートの文字エンコーディングを取得します。
         /// </summary>
         /// <returns>フハ レポートの文字エンコーディング。</returns>
-        public Encoding GetEncoding()
+        private Encoding GetEncoding()
         {
             try
             {
