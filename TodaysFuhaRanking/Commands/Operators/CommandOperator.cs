@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
 using NLog;
+using TodaysFuhaRanking.Settings;
+using TodaysFuhaRanking.Settings.Repositories;
 
 namespace TodaysFuhaRanking.Commands.Operators
 {
@@ -15,16 +17,21 @@ namespace TodaysFuhaRanking.Commands.Operators
         private readonly CommandLineArgs args;
         /// <summary>コマンドの実行中に使用するロギング オブジェクト</summary>
         private readonly ILogger logger;
+        /// <summary>アプリケーション設定</summary>
+        private readonly SettingsRoot settings;
 
         /// <summary>
         /// <see cref="CommandOperator"/> の新しいインスタンスを生成します。
         /// </summary>
         /// <param name="args">使用する</param>
         /// <param name="logger">コマンドの実行中に使用するロギング オブジェクト。</param>
-        public CommandOperator(string[] args, ILogger logger)
+        public CommandOperator(IEnumerable<string> args, ILogger logger)
         {
             this.args = CommandLineArgs.ParseFrom(args);
             this.logger = logger;
+
+            var repo = SettingsRepositoryFactory.CreateDefault();
+            settings = repo.Load();
         }
 
         /// <summary>
@@ -49,9 +56,9 @@ namespace TodaysFuhaRanking.Commands.Operators
         /// <returns>実行オプションを元に生成されたコマンドのコレクション。</returns>
         private IEnumerable<ICommand> CreateCommands()
         {
-            if (args.ExecutesAggregate) { yield return new AggregateCommand(logger); }
-            if (args.ExecutesTweet) { yield return new TweetCommand(logger); }
-            if (args.ExecutesExportText) { yield return new ExportTextCommand(logger); }
+            if (args.ExecutesAggregate) { yield return new AggregateCommand(logger, settings); }
+            if (args.ExecutesTweet) { yield return new TweetCommand(logger, settings); }
+            if (args.ExecutesExportText) { yield return new ExportTextCommand(logger, settings); }
         }
     }
 }
