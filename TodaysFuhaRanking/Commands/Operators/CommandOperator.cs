@@ -15,7 +15,7 @@ namespace TodaysFuhaRanking.Commands.Operators
     {
         /// <summary>コマンド ライン引数</summary>
         private readonly CommandLineArgs args;
-        /// <summary>コマンドの実行中に使用するロギング オブジェクト</summary>
+        /// <summary>ロギング オブジェクト</summary>
         private readonly ILogger logger;
         /// <summary>アプリケーション設定</summary>
         private readonly SettingsRoot settings;
@@ -23,15 +23,15 @@ namespace TodaysFuhaRanking.Commands.Operators
         /// <summary>
         /// <see cref="CommandOperator"/> の新しいインスタンスを生成します。
         /// </summary>
-        /// <param name="args">使用する</param>
-        /// <param name="logger">コマンドの実行中に使用するロギング オブジェクト。</param>
-        public CommandOperator(IEnumerable<string> args, ILogger logger)
+        /// <param name="args">コマンド ライン引数。</param>
+        public CommandOperator(IEnumerable<string> args)
         {
             this.args = CommandLineArgs.ParseFrom(args);
-            this.logger = logger;
 
-            var repo = SettingsRepositoryFactory.CreateDefault();
-            settings = repo.Load();
+            logger = LogManager.GetCurrentClassLogger();
+
+            var repository = SettingsRepositoryFactory.CreateDefault();
+            settings = repository.Load();
         }
 
         /// <summary>

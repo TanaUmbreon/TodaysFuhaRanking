@@ -1,22 +1,21 @@
 ﻿using System;
+using NLog;
 using TodaysFuhaRanking.Commands.Operators;
 using TodaysFuhaRanking.Common;
-using NLog;
 
 namespace TodaysFuhaRanking
 {
     public static class Program
     {
-        /// <summary>ロギング オブジェクト</summary>
-        private static readonly ILogger logger = LogManager.GetCurrentClassLogger();
-
         static void Main(string[] args)
         {
+            ILogger logger = LogManager.GetCurrentClassLogger();
+
             try
             {
                 logger.Info("アプリケーションを開始します。");
 
-                var oper = new CommandOperator(args, logger);
+                var oper = new CommandOperator(args);
                 oper.ExecuteCommands();
 
                 ExitCode.Completed.Apply();
@@ -25,7 +24,7 @@ namespace TodaysFuhaRanking
             catch (Exception ex)
             {
                 ExitCode.Stopped.Apply();
-                logger.Fatal(ex, "アプリケーションで問題が発生したため、実行を中断しました。");
+                logger?.Fatal(ex, "アプリケーションで問題が発生したため、実行を中断しました。");
                 throw;
             }
         }
