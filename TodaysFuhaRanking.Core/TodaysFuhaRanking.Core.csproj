@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Version>1.2.0</Version>
+    <Authors>Tana</Authors>
+    <RepositoryUrl>https://github.com/TanaUmbreon/TodaysFuhaRanking</RepositoryUrl>
+    <RepositoryType>GitHub</RepositoryType>
+    <Copyright>Copyright © 2019 Tana</Copyright>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommandLineParser" Version="2.8.0" />
+    <PackageReference Include="CoreTweet" Version="1.0.0.483" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Repositories\" />
+  </ItemGroup>
+
+</Project>
